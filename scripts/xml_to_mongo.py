@@ -14,7 +14,7 @@ try:
 except:
     print("Error: Unable to connect to database.")
     sys.exit(-1);
-col = conn.wikibooks.books
+col = conn.wikibooks.book
 
 tree = etree.parse(XML_DATA_SRC,parser=etree.XMLParser(encoding="UTF-8")).getroot()
 
