@@ -4,7 +4,7 @@ import xml.etree.ElementTree as etree
 import os
 from pymongo import MongoClient
 
-XML_DATA_SRC = os.path.join("xml","enwikibooks.xml")
+XML_DATA_SRC = os.path.join("..","xml","enwikibooks.xml")
 
 STEP_SIZE = 50
 
