@@ -32,6 +32,8 @@ with conn.cursor() as cur:
         cur.execute("""INSERT INTO book(book_id,url,title,text) VALUES (%s,%s,%s,%s)""", (id,url,title,node.text))
 
         i += 1
-        if (i % STEP_SIZE == 0): conn.commit()
+        if (i % STEP_SIZE == 0):
+            print("Inserting {amt} books.".format(amt=STEP_SIZE))
+            conn.commit()
 
 conn.commit()
