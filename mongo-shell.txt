@@ -1,0 +1,3 @@
+use wikibooks
+
+db.book.find({ $text: { $search: "haskell" }}, { score: {$meta: "textScore"}, text:0, _id:0, url:0, book_id:0}).sort({'score':{'$meta': 'textScore'}}).limit(10)
