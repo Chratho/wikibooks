@@ -28,3 +28,7 @@ SELECT ts_headline(text,q) FROM
    ORDER BY RANK DESC 
    LIMIT 10
   ) as res;
+
+// prefix matching
+select title from book, to_tsquery('english','haskell & ye:*') q, ts_rank(to_tsvector('english',title),q) r where to_tsvector('english',title) @@ q ORDER BY r DESC LIMIT 10;
+

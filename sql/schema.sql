@@ -9,7 +9,7 @@ create table book (
   search_ix tsvector not null
 );
 
-create index on book(title);
+CREATE INDEX titlesearch_ix ON book USING gin(to_tsvector('pg_catalog.english', title));
 
 CREATE FUNCTION book_trigger() RETURNS trigger AS $$
 begin
