@@ -1,3 +1,6 @@
+
+// simple fulltext query
 SELECT title FROM book WHERE search_ix  @@ to_tsquery('Richard & Stallman');
 
+// ranking
 SELECT title, ts_rank_cd(search_ix, to_tsquery('Richard & Stallman')) AS rank FROM book WHERE search_ix @@ to_tsquery('Richard & Stallman') ORDER BY RANK DESC LIMIT 10;
