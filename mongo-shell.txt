@@ -1,3 +1,15 @@
 use wikibooks
 
-db.book.find({ $text: { $search: "haskell" }}, { score: {$meta: "textScore"}, text:0, _id:0, url:0, book_id:0}).sort({'score':{'$meta': 'textScore'}}).limit(10)
+
+--Query 1: One matching result
+db.book.findOne({ $text: { $search: "\"richard stallman\"" }})
+
+--Query 2: All results, sorted (more verbose columns excluded)
+db.book.find({ $text: { $search: "\"richard stallman\"" }}, { score: {$meta: "textScore"}, text:0, _id:0, url:0, book_id:0}).sort({'score':{'$meta': 'textScore'}}).pretty()
+
+--Query 3: Top ten results of Query 2
+db.book.find({ $text: { $search: "\"richard stallman\"" }}, { score: {$meta: "textScore"}, text:0, _id:0, url:0, book_id:0}).sort({'score':{'$meta': 'textScore'}}).limit(10).pretty()
+
+-- Query 4: Execution stats
+db.book.find({ $text: { $search: "\"richard stallman\"" }}, { score: {$meta: "textScore"}, text:0, _id:0, url:0, book_id:0}).sort({'score':{'$meta': 'textScore'}}).explain("executionStats")
+
