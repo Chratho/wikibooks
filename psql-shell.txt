@@ -3,4 +3,22 @@
 SELECT title FROM book WHERE search_ix  @@ to_tsquery('Richard & Stallman');
 
 // ranking
-SELECT title, ts_rank_cd(search_ix, to_tsquery('Richard & Stallman')) AS rank FROM book WHERE search_ix @@ to_tsquery('Richard & Stallman') ORDER BY RANK DESC LIMIT 10;
+SELECT title, ts_rank_cd(search_ix, q) AS rank FROM book, to_tsquery('Richard & Stallman') q WHERE search_ix @@ q ORDER BY RANK DESC LIMIT 10;
+
+// example of an index
+SELECT to_tsvector('How is FOSS Different from Proprietary Software');
+
+// show biggest relations
+SELECT nspname || '.' || relname AS "relation", pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+  FROM pg_class C
+  LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+  WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+  ORDER BY pg_relation_size(C.oid) DESC
+  LIMIT 3;
+
+// result highlighting
+SELECT ts_headline(text,q) FROM 
+  (SELECT text, q, ts_rank_cd(search_ix, q) AS rank 
+   FROM book, to_tsquery('Richard & Stallman') q 
+   WHERE search_ix @@ q ORDER BY RANK DESC LIMIT 10
+  ) as res;
